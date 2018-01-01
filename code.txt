@@ -1,0 +1,129 @@
+
+#include <SPI.h>
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
+#define OLED_RESET 4
+Adafruit_SSD1306 Display(OLED_RESET);
+
+int z = 0;
+int i = 0;
+int m = 0;
+int s = 0;
+int ms = 0;
+int inByte = 0;
+int c = 0;
+
+void setup()   {
+  
+  Serial.begin(9600);
+  pinMode(A1, INPUT_PULLUP);
+  pinMode(9, OUTPUT); 
+  digitalWrite(9, LOW);
+  
+  Display.begin(SSD1306_SWITCHCAPVCC, 0x3C);  // initialize with the I2C addr 0x3C (for the 128x32)  
+  Display.clearDisplay();
+  Display.setTextColor(WHITE);
+  Display.setTextSize(1);
+  Display.setCursor(0, 0);
+  Display.println(" Android Based ");  
+  Display.setCursor(0, 15);
+  Display.println(" Smart  Device");  
+  Display.display();
+  delay (2000);
+ 
+  
+}
+
+
+void loop() {
+  Display.clearDisplay();
+  
+  z = analogRead(A0);
+  z = z / 10.24;
+  
+  Display.setTextSize(1);
+  Display.setTextColor(WHITE);
+  Display.setCursor(0, 0);
+  Display.print("  Woman Safety  ");
+  Display.println(z);
+  
+  if(ms<1000)
+  {ms=ms+100;    
+  }
+  else
+  {ms=0;
+   
+   if(s<60)
+   {s=s+1;
+   }
+   else
+   {s=0;
+    if(m<60)
+    {m=m+1;
+    }
+    else
+    {m=0;
+    }
+   }
+    
+  }
+  
+  Display.setTextSize(2);  
+  Display.setTextColor(WHITE);
+  Display.setCursor(0, 10);
+  Display.print(" Time:");
+  Display.print(m);
+  Display.print(":");
+  Display.println(s);
+  
+  
+  Display.display();
+  
+   if(digitalRead(A1) == LOW)      
+      {        
+        digitalWrite(9,HIGH);
+        Serial.println("PPP" );        
+      }
+      
+   if(z >= 60)      
+      {        
+        digitalWrite(9,HIGH);
+        Serial.println("PPP" );        
+      }
+  
+  delay(100);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
